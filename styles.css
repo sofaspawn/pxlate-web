@@ -1,0 +1,10 @@
+#output-image {
+    display: block;
+    max-width: 100%;
+    margin-top: 1em;
+}
+
+#download-link {
+    display: none; /* start hidden */
+    margin-top: 1em;
+}
