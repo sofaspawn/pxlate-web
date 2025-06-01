@@ -7,13 +7,14 @@ async function generatePixelArt() {
   try {
     const fileInput = document.getElementById("image-input");
     const density = parseInt(document.getElementById("density").value);
+    const selectedPalette = document.getElementById('palette-select').value;
 
     if (!fileInput.files.length) return alert("Choose an image first!");
     const file = fileInput.files[0];
     const arrayBuffer = await file.arrayBuffer();
     const uint8Array = new Uint8Array(arrayBuffer);
 
-    const resultDataUrl = await process_image(uint8Array, density);
+    const resultDataUrl = await process_image(uint8Array, density, selectedPalette);
 
     const img = document.getElementById("output-image");
     img.src = resultDataUrl;
@@ -33,5 +34,9 @@ document.getElementById("process-btn").onclick = generatePixelArt;
 
 // Listen for changes to the slider (pixel density)
 document.getElementById("density").addEventListener("input", () => {
+  generatePixelArt();
+});
+
+document.getElementById("palette-select").addEventListener("input", () => {
   generatePixelArt();
 });
