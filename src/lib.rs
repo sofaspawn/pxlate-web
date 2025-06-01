@@ -51,12 +51,16 @@ fn downscale(img: DynamicImage, sfactor: usize) -> DynamicImage {
 }
 
 fn color_diff(c1: Rgba<u8>, c2: Rgba<u8>) -> i32 {
-    // because colors are perceived differently
-    let r_diff = (c1[0] as i32 - c2[0] as i32).pow(2) * 3;
-    let g_diff = (c1[1] as i32 - c2[1] as i32).pow(2) * 6;
-    let b_diff = (c1[2] as i32 - c2[2] as i32).pow(2) * 1;
+    let r_mean = (c1[0] as i32 + c2[0] as i32) / 2;
+    let r = c1[0] as i32 - c2[0] as i32;
+    let g = c1[1] as i32 - c2[1] as i32;
+    let b = c1[2] as i32 - c2[2] as i32;
 
-    ((r_diff + g_diff + b_diff) as f64).sqrt() as i32
+    let weight_r = 2 + r_mean / 256;
+    let weight_g = 4;
+    let weight_b = 2 + (255 - r_mean) / 256;
+
+    ((weight_r * r * r + weight_g * g * g + weight_b * b * b) as f64).sqrt() as i32
 }
 
 fn pxlate(img: DynamicImage, sfactor: usize, palette_choice: String) -> DynamicImage {
