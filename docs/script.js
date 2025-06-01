@@ -1,7 +1,9 @@
 import init, { process_image } from "./pkg/pxlate_web.js";
 
 await init();
-document.getElementById("process-btn").onclick = async () => {
+
+// Function to generate pixel art
+async function generatePixelArt() {
   try {
     const fileInput = document.getElementById("image-input");
     const density = parseInt(document.getElementById("density").value);
@@ -24,4 +26,12 @@ document.getElementById("process-btn").onclick = async () => {
     alert("Failed to generate image: " + err);
     console.error(err);
   }
-};
+}
+
+// Listen for the "Generate PixelArt" button click
+document.getElementById("process-btn").onclick = generatePixelArt;
+
+// Listen for changes to the slider (pixel density)
+document.getElementById("density").addEventListener("input", () => {
+  generatePixelArt();
+});
