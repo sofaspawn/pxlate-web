@@ -1,4 +1,4 @@
-import init, { process_image } from "./pkg/pxlate_web.js";
+import init, { process_image } from "/docs/pkg/pxlate_web.js";
 
 await init();
 document.getElementById("process-btn").onclick = async () => {
