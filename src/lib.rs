@@ -14,9 +14,7 @@ pub fn process_image(data: &[u8], pixel_size: u32, palette: &str) -> Result<Stri
         .map_err(|e| JsValue::from_str(&format!("Failed to load image: {}", e)))?;
 
     let small = downscale(img, pixel_size as usize);
-
     let pixelated = pxlate(small, pixel_size as usize, palette.to_string());
-
     let upscaled = upscale(pixelated, pixel_size as usize);
 
     // Encode image to PNG
@@ -180,6 +178,38 @@ fn pxlate(img: DynamicImage, sfactor: usize, palette_choice: String) -> DynamicI
         Rgba([0, 43, 54, 255]),
         Rgba([253, 246, 227, 255]),
         Rgba([101, 123, 131, 255]),
+    ]);
+
+    color_palette.insert("aesthetic".to_string(), vec![
+        Rgba([102, 84, 94, 255]),
+        Rgba([163, 145, 147, 255]),
+        Rgba([170, 111, 115, 255]),
+        Rgba([238, 169, 144, 255]),
+        Rgba([246, 224, 181, 255]),
+    ]);
+
+    color_palette.insert("rainbowdash".to_string(), vec![
+        Rgba([238, 64, 53, 255]),
+        Rgba([243, 119, 54, 255]),
+        Rgba([253, 244, 152, 255]),
+        Rgba([123, 192, 67, 255]),
+        Rgba([3, 146, 207, 255]),
+    ]);
+
+    color_palette.insert("citysunset".to_string(), vec![
+        Rgba([238, 175, 97, 255]),
+        Rgba([251, 144, 98, 255]),
+        Rgba([238, 93, 108, 255]),
+        Rgba([206, 73, 147, 255]),
+        Rgba([106, 13, 131, 255]),
+    ]);
+
+    color_palette.insert("instagramgradient".to_string(), vec![
+        Rgba([254, 218, 117, 255]),
+        Rgba([250, 126, 30, 255]),
+        Rgba([214, 41, 118, 255]),
+        Rgba([150, 47, 191, 255]),
+        Rgba([79, 91, 213, 255]),
     ]);
 
     //TODO: add the palettes in the color palette.
