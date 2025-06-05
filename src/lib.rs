@@ -181,54 +181,97 @@ fn pxlate(img: DynamicImage, sfactor: usize, palette_choice: String) -> DynamicI
     ]);
 
     color_palette.insert("aesthetic".to_string(), vec![
-        Rgba([102, 84, 94, 255]),
-        Rgba([163, 145, 147, 255]),
-        Rgba([170, 111, 115, 255]),
-        Rgba([238, 169, 144, 255]),
-        Rgba([246, 224, 181, 255]),
+        Rgba([102, 84, 94, 255]),   // muted mauve
+        Rgba([163, 145, 147, 255]), // dusty rose
+        Rgba([170, 111, 115, 255]), // faded red
+        Rgba([238, 169, 144, 255]), // peach
+        Rgba([246, 224, 181, 255]), // cream
+        Rgba([202, 183, 174, 255]), // soft taupe
+        Rgba([216, 190, 204, 255]), // pale lavender pink
+        Rgba([186, 133, 157, 255]), // vintage rose
+        Rgba([148, 112, 120, 255]), // antique mauve
+        Rgba([234, 211, 206, 255]), // blush
+        Rgba([224, 187, 228, 255]), // pastel purple
+        Rgba([197, 163, 185, 255]), // dusty lilac
+        Rgba([181, 139, 132, 255]), // soft clay
+        Rgba([251, 221, 201, 255]), // light apricot
+        Rgba([174, 146, 138, 255]), // warm gray
+        Rgba([220, 194, 158, 255]), // beige sand
     ]);
 
     color_palette.insert("rainbowdash".to_string(), vec![
-        Rgba([238, 64, 53, 255]),
-        Rgba([243, 119, 54, 255]),
-        Rgba([253, 244, 152, 255]),
-        Rgba([123, 192, 67, 255]),
-        Rgba([3, 146, 207, 255]),
+        Rgba([238, 64, 53, 255]),   // vibrant red
+        Rgba([243, 119, 54, 255]),  // orange
+        Rgba([253, 180, 73, 255]),  // goldenrod
+        Rgba([253, 244, 152, 255]), // yellow
+        Rgba([201, 232, 107, 255]), // yellow-green
+        Rgba([123, 192, 67, 255]),  // green
+        Rgba([64, 175, 125, 255]),  // sea green
+        Rgba([34, 165, 175, 255]),  // teal
+        Rgba([3, 146, 207, 255]),   // sky blue
+        Rgba([47, 121, 190, 255]),  // azure
+        Rgba([91, 94, 197, 255]),   // royal blue
+        Rgba([132, 82, 196, 255]),  // indigo
+        Rgba([175, 73, 215, 255]),  // purple
+        Rgba([211, 76, 200, 255]),  // magenta
+        Rgba([234, 84, 155, 255]),  // hot pink
+        Rgba([241, 107, 122, 255]), // coral
     ]);
 
     color_palette.insert("citysunset".to_string(), vec![
-        Rgba([238, 175, 97, 255]),
-        Rgba([251, 144, 98, 255]),
-        Rgba([238, 93, 108, 255]),
-        Rgba([206, 73, 147, 255]),
-        Rgba([106, 13, 131, 255]),
+        Rgba([238, 175, 97, 255]),   // golden orange
+        Rgba([251, 144, 98, 255]),   // soft tangerine
+        Rgba([243, 114, 100, 255]),  // coral
+        Rgba([238, 93, 108, 255]),   // rose red
+        Rgba([224, 82, 122, 255]),   // watermelon
+        Rgba([211, 77, 133, 255]),   // raspberry pink
+        Rgba([206, 73, 147, 255]),   // hot magenta
+        Rgba([181, 60, 150, 255]),   // magenta-purple
+        Rgba([157, 42, 145, 255]),   // plum
+        Rgba([133, 28, 138, 255]),   // violet
+        Rgba([106, 13, 131, 255]),   // deep purple
+        Rgba([94, 16, 112, 255]),    // indigo purple
+        Rgba([83, 18, 95, 255]),     // twilight purple
+        //Rgba([71, 20, 78, 255]),     // night mauve
+        Rgba([59, 21, 64, 255]),     // dusk violet
+        //Rgba([47, 22, 52, 255]),     // after-sunset blackcurrant
     ]);
 
     color_palette.insert("instagramgradient".to_string(), vec![
-        Rgba([254, 218, 117, 255]),
-        Rgba([250, 126, 30, 255]),
-        Rgba([214, 41, 118, 255]),
-        Rgba([150, 47, 191, 255]),
-        Rgba([79, 91, 213, 255]),
+        Rgba([254, 218, 117, 255]),  // golden yellow
+        Rgba([253, 184, 85, 255]),   // sunflower orange
+        Rgba([250, 150, 57, 255]),   // pumpkin
+        Rgba([250, 126, 30, 255]),   // vivid orange
+        Rgba([242, 104, 72, 255]),   // coral orange
+        Rgba([228, 72, 95, 255]),    // pinkish red
+        Rgba([214, 41, 118, 255]),   // magenta
+        Rgba([188, 35, 140, 255]),   // fuchsia
+        Rgba([167, 41, 161, 255]),   // orchid purple
+        Rgba([150, 47, 191, 255]),   // violet
+        Rgba([134, 58, 197, 255]),   // electric purple
+        Rgba([111, 70, 204, 255]),   // blue-violet
+        Rgba([98, 78, 208, 255]),    // periwinkle
+        Rgba([89, 85, 211, 255]),    // indigo blue
+        Rgba([84, 88, 212, 255]),    // cobalt
+        Rgba([79, 91, 213, 255]),    // deep blue
     ]);
-
-    //TODO: add the palettes in the color palette.
-    //TODO: then let the user choose the palette and do the deed
-
-    let palette: Vec<Rgba<u8>> = color_palette.get(&palette_choice).unwrap().clone();
 
     let mut matrix: Vec<Rgba<u8>> = dwnscl.pixels().map(|p| p.2).collect();
 
-    for (i, pxl) in matrix.clone().iter().enumerate() {
-        let (mut iclr, mut pxldiff) = (Rgba([0, 0, 0, 255]), 255);
-        for clr in &palette {
-            let diff = color_diff(*pxl, *clr);
-            if diff < pxldiff {
-                iclr = *clr;
+    if palette_choice != "none" {
+        let palette: Vec<Rgba<u8>> = color_palette.get(&palette_choice).unwrap().clone();
+
+        for (i, pxl) in matrix.clone().iter().enumerate() {
+            let (mut iclr, mut pxldiff) = (Rgba([0, 0, 0, 255]), 255);
+            for clr in &palette {
+                let diff = color_diff(*pxl, *clr);
+                if diff < pxldiff {
+                    iclr = *clr;
+                }
+                pxldiff = min(pxldiff, diff);
             }
-            pxldiff = min(pxldiff, diff);
+            matrix[i] = iclr;
         }
-        matrix[i] = iclr;
     }
 
     let (smol_width, smol_height) = dwnscl.dimensions();
